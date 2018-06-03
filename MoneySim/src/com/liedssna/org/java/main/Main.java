@@ -1,12 +1,11 @@
 package com.liedssna.org.java.main;
 
-import com.liedssna.org.java.main.display.Display;
+import com.liedssna.org.java.main.game.Game;
 
 public class Main {
 
 	public static void main(String[] args) {
-		Display display = new Display("MyMoney");
-		display.setVisible(true);
+		new Game();
 	}
 
 }
