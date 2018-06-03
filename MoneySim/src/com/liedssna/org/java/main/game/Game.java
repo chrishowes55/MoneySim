@@ -1,22 +1,22 @@
 package com.liedssna.org.java.main.game;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import com.liedssna.org.java.main.display.Display;
 
 public class Game {
 	
-	private HashMap<String, Business> businesses = new HashMap<String, Business>();
+	private LinkedHashMap<String, Business> businesses = new LinkedHashMap<String, Business>();
 	private boolean gameIsRunning = true;
 	private Player player;
 	private Display display;
 	
 	public Game() {
 		player = new Player("Chris");
+		popBusinesses();
 		display = new Display("MyMoney", player, this);
 		display.setVisible(true);
-		popBusinesses();
 		gameLoop();
 	}	
 	
@@ -52,5 +52,11 @@ public class Game {
 	public void increaseNumOfBusiness(String key, int num) {
 		businesses.get(key).addToNum(num);
 	}
+
+	public HashMap<String, Business> getBusinesses() {
+		return businesses;
+	}
+	
+	
 
 }

@@ -14,4 +14,12 @@ public class Business {
 		this.num += amount;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public int getNum() {
+		return num;
+	}
+
 }
