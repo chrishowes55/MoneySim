@@ -13,10 +13,12 @@ import com.liedssna.org.java.main.game.Player;
 public class Display extends JFrame {
 	
 	private Game game;
+	private Player player;
 	private JLabel label;
 	
 	public Display(String title, Player player, Game game) {
 		super(title);
+		this.player = player;
 		this.game = game;
 		setSize(500, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -28,6 +30,10 @@ public class Display extends JFrame {
 		setLayout(new FlowLayout());
 		label = new JLabel(player.getName() + " has £" + player.getMoney());
 		add(label);
+	}
+	
+	public void updateDisplay() {
+		label.setText(player.getName() + " has £" + player.getMoney());
 	}
 	
 	public class MyKeyListener implements KeyListener {

@@ -5,9 +5,12 @@ import com.liedssna.org.java.main.display.Display;
 public class Game {
 	
 	private boolean gameIsRunning = true;
+	private Player player;
+	private Display display;
 	
 	public Game() {
-		Display display = new Display("MyMoney", new Player("Chris"), this);
+		player = new Player("Chris");
+		display = new Display("MyMoney", player, this);
 		display.setVisible(true);
 		gameLoop();
 	}	
@@ -19,8 +22,11 @@ public class Game {
 				saveGame();
 				break;
 			}
-			System.out.println("Trying");
+			player.increaseMoney(1);
+			display.updateDisplay();
 		}
+		display.setVisible(false);
+		display.dispose();
 	}
 	
 	public void saveGame() {
