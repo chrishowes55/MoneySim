@@ -36,10 +36,9 @@ public class Display extends JFrame {
 		add(label);
 
 		panel = new JPanel();
-		System.out.println(game.getBusinesses().size());
 		for (int i = 0; i < game.getBusinesses().size(); i++) {
-			labels.add(new JLabel(game.getBusinesses().get(game.getBusinesses().keySet().toArray()[i]).getName() + " "
-					+ game.getBusinesses().get(game.getBusinesses().keySet().toArray()[i]).getNum()));
+			labels.add(new JLabel(game.getBusinesses().get((Integer)i).getName() + " "
+					+ game.getBusinesses().get((Integer)i).getNum()));
 			panel.add(labels.get(i));
 		}
 		add(panel);
@@ -48,8 +47,8 @@ public class Display extends JFrame {
 	public void updateDisplay() {
 		label.setText(player.getName() + " has £" + player.getMoney());
 		for (int i = 0; i < labels.size(); i++) {
-			labels.get(i).setText(game.getBusinesses().get(game.getBusinesses().keySet().toArray()[i]).getName() + " "
-					+ game.getBusinesses().get(game.getBusinesses().keySet().toArray()[i]).getNum());
+			labels.get(i).setText(game.getBusinesses().get((Integer)i).getName() + " "
+					+ game.getBusinesses().get((Integer)i).getNum());
 		}
 	}
 
