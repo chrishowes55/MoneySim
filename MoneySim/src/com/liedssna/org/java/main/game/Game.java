@@ -7,7 +7,7 @@ import com.liedssna.org.java.main.display.Display;
 
 public class Game {
 	
-	private LinkedHashMap<String, Business> businesses = new LinkedHashMap<String, Business>();
+	private LinkedHashMap<Integer, Business> businesses = new LinkedHashMap<Integer, Business>();
 	private boolean gameIsRunning = true;
 	private Player player;
 	private Display display;
@@ -21,8 +21,8 @@ public class Game {
 	}	
 	
 	public void popBusinesses() {
-		businesses.put("Ozan", new Business("Ozan", 1));
-		businesses.put("Legs", new Business("Legs", 2));
+		businesses.put(0, new Business("Ozan", 1));
+		businesses.put(1, new Business("Legs", 2));
 	}
 	
 	public void gameLoop() {
@@ -49,11 +49,11 @@ public class Game {
 		System.out.println(this.gameIsRunning);
 	}
 	
-	public void increaseNumOfBusiness(String key, int num) {
+	public void increaseNumOfBusiness(Integer key, int num) {
 		businesses.get(key).addToNum(num);
 	}
 
-	public HashMap<String, Business> getBusinesses() {
+	public LinkedHashMap<Integer, Business> getBusinesses() {
 		return businesses;
 	}
 	
