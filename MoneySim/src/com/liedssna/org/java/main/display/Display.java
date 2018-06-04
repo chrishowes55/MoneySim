@@ -1,6 +1,5 @@
 package com.liedssna.org.java.main.display;
 
-import java.awt.FlowLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -8,6 +7,12 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JButton;
+
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridLayout;
 
 import com.liedssna.org.java.main.game.Game;
 import com.liedssna.org.java.main.game.Player;
@@ -31,15 +36,24 @@ public class Display extends JFrame {
 		addKeyListener(listener);
 		setFocusable(true);
 
-		setLayout(new FlowLayout());
+		setLayout(new GridLayout(0, 1));
 		label = new JLabel(player.getName() + " has £" + player.getMoney());
 		add(label);
 
 		panel = new JPanel();
+		panel.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
 		for (int i = 0; i < game.getBusinesses().size(); i++) {
 			labels.add(new JLabel(game.getBusinesses().get((Integer)i).getName() + " "
 					+ game.getBusinesses().get((Integer)i).getNum()));
-			panel.add(labels.get(i));
+			c.gridx = 0;
+			c.gridwidth = 2;
+			c.gridy = i + 1;
+			panel.add(labels.get(i), c);
+			c.gridx = 2;
+			c.gridy = i + 1;
+			panel.add(new JButton("Buy x1"), c);
 		}
 		add(panel);
 	}
