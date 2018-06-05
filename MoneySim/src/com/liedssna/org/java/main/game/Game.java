@@ -21,8 +21,8 @@ public class Game {
 	}	
 	
 	public void popBusinesses() {
-		businesses.put(0, new Business("Ozan", 1));
-		businesses.put(1, new Business("Legs", 2));
+		businesses.put(0, new Business("Ozan", 1, 10, 2));
+		businesses.put(1, new Business("Legs", 2, 14, 4));
 	}
 	
 	public void gameLoop() {
@@ -32,7 +32,12 @@ public class Game {
 				saveGame();
 				break;
 			}
-			player.increaseMoney(1);
+			for (int i = 0; i < businesses.size(); i++) {
+				if (businesses.get((Integer)i).hasTimePassed()) {
+					player.increaseMoney(businesses.get((Integer)i).getMoney());
+					System.out.println("Player money increased by: " + businesses.get((Integer)i).getMoney() + " from " + businesses.get((Integer)i).getName());
+				}
+			}
 			display.updateDisplay();
 		}
 		display.setVisible(false);
