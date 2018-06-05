@@ -2,6 +2,9 @@ package com.liedssna.org.java.main.display;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -53,7 +56,9 @@ public class Display extends JFrame {
 			panel.add(labels.get(i), c);
 			c.gridx = 2;
 			c.gridy = i + 1;
-			panel.add(new JButton("Buy x1"), c);
+			JButton button = new JButton("Buy x1");
+			button.addMouseListener(new ButtonMouseListener(i, game));
+			panel.add(button, c);
 		}
 		add(panel);
 	}
@@ -84,6 +89,25 @@ public class Display extends JFrame {
 		public void keyReleased(KeyEvent e) {
 		}
 
+	}
+	
+	public class ButtonMouseListener extends MouseAdapter {
+	
+		private int index;
+		private Game game;
+		
+		public ButtonMouseListener(int index, Game game) {
+			this.index = index;
+			this.game = game;
+		}
+		
+		
+		public void mousePressed(MouseEvent e) {
+			if (e.getButton() == MouseEvent.BUTTON1) {
+				game.increaseNumOfBusiness((Integer)index, 1);
+			}
+		}
+		
 	}
 
 }
