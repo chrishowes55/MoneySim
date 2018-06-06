@@ -48,7 +48,7 @@ public class Display extends JFrame {
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		for (int i = 0; i < game.getBusinesses().size(); i++) {
-			labels.add(new JLabel(game.getBusinesses().get((Integer)i).getName() + " "
+			labels.add(new JLabel(game.getBusinesses().get((Integer)i).getName() + ": Time:" + game.getBusinesses().get((Integer)i).getTime() + ", Num:"
 					+ game.getBusinesses().get((Integer)i).getNum()));
 			c.gridx = 0;
 			c.gridwidth = 2;
@@ -65,8 +65,11 @@ public class Display extends JFrame {
 
 	public void updateDisplay() {
 		label.setText(player.getName() + " has £" + player.getMoney());
+	}
+	
+	public void updateTimes() {
 		for (int i = 0; i < labels.size(); i++) {
-			labels.get(i).setText(game.getBusinesses().get((Integer)i).getName() + " "
+			labels.get(i).setText(game.getBusinesses().get((Integer)i).getName() + ": Time:" + game.getBusinesses().get((Integer)i).getTime() + ", Num:"
 					+ game.getBusinesses().get((Integer)i).getNum());
 		}
 	}
@@ -111,3 +114,4 @@ public class Display extends JFrame {
 	}
 
 }
+
