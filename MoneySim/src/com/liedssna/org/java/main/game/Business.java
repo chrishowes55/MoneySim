@@ -27,12 +27,12 @@ public class Business {
 		return num;
 	}
 	
-	public int getMoney() {
-		return num * starterMoney;
+	public int getMoney(Game game) {
+		return num * starterMoney * game.getOverallMultiplier();
 	}
 	
 	public int getDisplayPrice() {
-		return (num + 1) * starterPrice;
+		return num * starterPrice;
 	}
 	
 	public int getBuyPrice() {
