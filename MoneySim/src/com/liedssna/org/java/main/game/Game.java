@@ -22,8 +22,8 @@ public class Game {
 	}	
 	
 	public void popBusinesses() {
-		businesses.put(0, new Business("Ozan", 1, 10, 2));
-		businesses.put(1, new Business("Legs", 2, 14, 4));
+		businesses.put(0, new Business("Ozan", 1, 10, 2, 5));
+		businesses.put(1, new Business("Legs", 2, 14, 4, 10));
 	}
 	
 	public void gameLoop() {
@@ -35,7 +35,6 @@ public class Game {
 			}
 			if (hasSecondPassed()) {
 				for(int i = 0; i < businesses.size(); i++) {
-					System.out.println("IN");
 					businesses.get((Integer)i).updateTime();
 					display.updateTimes();
 				}
@@ -60,7 +59,6 @@ public class Game {
 		long delta = System.currentTimeMillis() - this.lasttime;
 		if (delta/1000 >= 1) {
 			reset();
-			System.out.println("IFFED");
 			return true;
 		}
 		return false;
@@ -77,7 +75,13 @@ public class Game {
 	}
 	
 	public void increaseNumOfBusiness(Integer key, int num) {
-		businesses.get(key).addToNum(num);
+		if (player.decreaseMoney(businesses.get(key).getBuyPrice())) {
+			businesses.get(key).addToNum(num);
+			display.updatePrices((int)key);
+		}
+		else {
+			display.noBuy();
+		}
 	}
 
 	public LinkedHashMap<Integer, Business> getBusinesses() {
