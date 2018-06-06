@@ -3,7 +3,7 @@ package com.liedssna.org.java.main.game;
 public class Business {
 	
 	private String name;
-	private int num, starterMoney, secs;
+	private int num, starterMoney, secs, time;
 	private long lasttime = System.currentTimeMillis();
 	
 	public Business(String name, int num, int starterMoney, int secs) {
@@ -11,6 +11,7 @@ public class Business {
 		this.num = num;
 		this.starterMoney = starterMoney;
 		this.secs = secs;
+		this.time = secs;
 	}
 	
 	public void addToNum(int amount) {
@@ -39,6 +40,19 @@ public class Business {
 			return true;
 		}
 		return false;
+	}
+	
+	public void updateTime() {
+		if (time <= 1) {
+			time = this.secs;
+		}
+		else {
+			time--;
+		}
+	}
+	
+	public int getTime() {
+		return this.time;
 	}
 
 }
