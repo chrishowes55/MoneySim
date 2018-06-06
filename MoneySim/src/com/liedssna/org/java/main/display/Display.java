@@ -27,7 +27,8 @@ public class Display extends JFrame {
 	private Game game;
 	private Player player;
 	private JLabel label, noLabel;
-	private JPanel panel;
+	private JPanel panel, normalPanel, upgradesPanel;
+	private JButton upgradesButton, exitUpgradesButton;
 	private ArrayList<JLabel> labels = new ArrayList<JLabel>();
 	private ArrayList<JButton> buttons = new ArrayList<JButton>();
 
@@ -42,13 +43,20 @@ public class Display extends JFrame {
 		addKeyListener(listener);
 		setFocusable(true);
 
-		setLayout(new GridLayout(0, 1));
+		createPanels();
+		setContentPane(normalPanel);
+	}
+	
+	public void createPanels() {
+		//NORMAL PANEL
+		normalPanel = new JPanel();
+		normalPanel.setLayout(new GridLayout(0, 1));
 		label = new JLabel(player.getName() + " has £" + player.getMoney());
-		add(label);
+		normalPanel.add(label);
 		
 		noLabel = new JLabel("You cannot buy that");
 		noLabel.setVisible(false);
-		add(noLabel);
+		normalPanel.add(noLabel);
 
 		panel = new JPanel();
 		panel.setLayout(new GridBagLayout());
@@ -68,7 +76,18 @@ public class Display extends JFrame {
 			buttons.add(button);
 			panel.add(button, c);
 		}
-		add(panel);
+		normalPanel.add(panel);
+		
+		upgradesButton = new JButton("Upgrades");
+		upgradesButton.addMouseListener(new UpgradesButtonMouseListener(this));
+		normalPanel.add(upgradesButton);
+		
+		//UPGRADES PANEL
+		upgradesPanel = new JPanel();
+		upgradesPanel.add(new JLabel("UPGRADES"));
+		exitUpgradesButton = new JButton("Back");
+		exitUpgradesButton.addMouseListener(new ExitUpgradesButtonMouseListener(this));
+		upgradesPanel.add(exitUpgradesButton);
 	}
 
 	public void updateDisplay() {
@@ -97,6 +116,20 @@ public class Display extends JFrame {
         javax.swing.Timer tick=new javax.swing.Timer(delay,taskPerformer);
         tick.setRepeats(false);
         tick.start();
+	}
+	
+	public void showUpgrades() {
+		remove(normalPanel);
+		setContentPane(upgradesPanel);
+		validate();
+		repaint();
+	}
+	
+	public void showNormal() {
+		remove(upgradesPanel);
+		setContentPane(normalPanel);
+		validate();
+		repaint();
 	}
 
 	public class MyKeyListener implements KeyListener {
@@ -137,5 +170,40 @@ public class Display extends JFrame {
 		}
 		
 	}
+	
+	public class UpgradesButtonMouseListener extends MouseAdapter {
+	
+		private Display display;
+		
+		public UpgradesButtonMouseListener(Display display) {
+			this.display = display;
+		}
+		
+		
+		public void mousePressed(MouseEvent e) {
+			if (e.getButton() == MouseEvent.BUTTON1) {
+				display.showUpgrades();
+			}
+		}
+		
+	}
+	
+	public class ExitUpgradesButtonMouseListener extends MouseAdapter {
+	
+		private Display display;
+		
+		public ExitUpgradesButtonMouseListener(Display display) {
+			this.display = display;
+		}
+		
+		
+		public void mousePressed(MouseEvent e) {
+			if (e.getButton() == MouseEvent.BUTTON1) {
+				display.showNormal();
+			}
+		}
+		
+	}
 
 }
+
