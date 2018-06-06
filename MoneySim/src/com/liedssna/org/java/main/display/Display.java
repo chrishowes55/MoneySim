@@ -5,6 +5,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -24,9 +26,10 @@ public class Display extends JFrame {
 
 	private Game game;
 	private Player player;
-	private JLabel label;
+	private JLabel label, noLabel;
 	private JPanel panel;
 	private ArrayList<JLabel> labels = new ArrayList<JLabel>();
+	private ArrayList<JButton> buttons = new ArrayList<JButton>();
 
 	public Display(String title, Player player, Game game) {
 		super(title);
@@ -42,6 +45,10 @@ public class Display extends JFrame {
 		setLayout(new GridLayout(0, 1));
 		label = new JLabel(player.getName() + " has £" + player.getMoney());
 		add(label);
+		
+		noLabel = new JLabel("You cannot buy that");
+		noLabel.setVisible(false);
+		add(noLabel);
 
 		panel = new JPanel();
 		panel.setLayout(new GridBagLayout());
@@ -56,8 +63,9 @@ public class Display extends JFrame {
 			panel.add(labels.get(i), c);
 			c.gridx = 2;
 			c.gridy = i + 1;
-			JButton button = new JButton("Buy x1");
+			JButton button = new JButton("Buy x1 for " + game.getBusinesses().get((Integer)i).getDisplayPrice());
 			button.addMouseListener(new ButtonMouseListener(i, game));
+			buttons.add(button);
 			panel.add(button, c);
 		}
 		add(panel);
@@ -72,6 +80,23 @@ public class Display extends JFrame {
 			labels.get(i).setText(game.getBusinesses().get((Integer)i).getName() + ": Time:" + game.getBusinesses().get((Integer)i).getTime() + ", Num:"
 					+ game.getBusinesses().get((Integer)i).getNum());
 		}
+	}
+	
+	public void updatePrices(int i) {
+		buttons.get(i).setText("Buy x1 for " + game.getBusinesses().get((Integer)i).getDisplayPrice());
+	}
+	
+	public void noBuy() {
+		noLabel.setVisible(true);
+		int delay = 1000; //milliseconds
+		ActionListener taskPerformer = new ActionListener() {
+          public void actionPerformed(ActionEvent evt) {
+                noLabel.setVisible(false);
+            }
+        };
+        javax.swing.Timer tick=new javax.swing.Timer(delay,taskPerformer);
+        tick.setRepeats(false);
+        tick.start();
 	}
 
 	public class MyKeyListener implements KeyListener {
@@ -114,4 +139,3 @@ public class Display extends JFrame {
 	}
 
 }
-
