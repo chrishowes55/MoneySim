@@ -11,6 +11,7 @@ public class Game {
 	private boolean gameIsRunning = true;
 	private Player player;
 	private Display display;
+	private long lasttime = System.currentTimeMillis();
 	
 	public Game() {
 		player = new Player("Chris");
@@ -32,6 +33,13 @@ public class Game {
 				saveGame();
 				break;
 			}
+			if (hasSecondPassed()) {
+				for(int i = 0; i < businesses.size(); i++) {
+					System.out.println("IN");
+					businesses.get((Integer)i).updateTime();
+					display.updateTimes();
+				}
+			}
 			for (int i = 0; i < businesses.size(); i++) {
 				if (businesses.get((Integer)i).hasTimePassed()) {
 					player.increaseMoney(businesses.get((Integer)i).getMoney());
@@ -42,6 +50,20 @@ public class Game {
 		}
 		display.setVisible(false);
 		display.dispose();
+	}
+	
+	private void reset() {
+		this.lasttime = System.currentTimeMillis();
+	}
+	
+	private boolean hasSecondPassed() {
+		long delta = System.currentTimeMillis() - this.lasttime;
+		if (delta/1000 >= 1) {
+			reset();
+			System.out.println("IFFED");
+			return true;
+		}
+		return false;
 	}
 	
 	public void saveGame() {
