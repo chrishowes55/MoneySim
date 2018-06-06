@@ -21,6 +21,12 @@ public class Player {
 		return money;
 	}
 	
-	
+	public boolean decreaseMoney(int amount) {
+		if (this.money - amount < 0) {
+			return false;
+		}
+		this.money -= amount;
+		return true;
+	}
 
 }
