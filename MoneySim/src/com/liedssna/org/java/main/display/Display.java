@@ -1,23 +1,20 @@
 package com.liedssna.org.java.main.display;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JButton;
-
-import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridLayout;
 
 import com.liedssna.org.java.main.game.Game;
 import com.liedssna.org.java.main.game.Player;
@@ -26,7 +23,7 @@ public class Display extends JFrame {
 
 	private Game game;
 	private Player player;
-	private JLabel label1, label2, noLabel;
+	private JLabel label1, label2, noLabel1, noLabel2;
 	private JPanel panel1, panel2, normalPanel, upgradesPanel;
 	private JButton upgradesButton, exitUpgradesButton;
 	private ArrayList<JLabel> labels1 = new ArrayList<JLabel>(), labels2 = new ArrayList<JLabel>();
@@ -46,49 +43,55 @@ public class Display extends JFrame {
 		createPanels();
 		setContentPane(normalPanel);
 	}
-	
+
 	public void createPanels() {
-		//NORMAL PANEL
+		// NORMAL PANEL
 		normalPanel = new JPanel();
 		normalPanel.setLayout(new GridLayout(0, 1));
 		label1 = new JLabel(player.getName() + " has £" + convertToNamed(player.getMoney()));
 		normalPanel.add(label1);
-		
-		noLabel = new JLabel("You cannot buy that");
-		noLabel.setVisible(false);
-		normalPanel.add(noLabel);
+
+		noLabel1 = new JLabel("You cannot buy that");
+		noLabel1.setVisible(false);
+		normalPanel.add(noLabel1);
 
 		panel1 = new JPanel();
 		panel1.setLayout(new GridBagLayout());
 		GridBagConstraints c1 = new GridBagConstraints();
 		c1.fill = GridBagConstraints.HORIZONTAL;
 		for (int i = 0; i < game.getBusinesses().size(); i++) {
-			labels1.add(new JLabel(game.getBusinesses().get((Integer)i).getName() + ": Time:" + game.getBusinesses().get((Integer)i).getTime() + ", Num:"
-					+ game.getBusinesses().get((Integer)i).getNum()));
+			labels1.add(new JLabel(game.getBusinesses().get((Integer) i).getName() + ": Time:"
+					+ game.getBusinesses().get((Integer) i).getTime() + ", Num:"
+					+ game.getBusinesses().get((Integer) i).getNum()));
 			c1.gridx = 0;
 			c1.gridwidth = 2;
 			c1.gridy = i + 1;
 			panel1.add(labels1.get(i), c1);
 			c1.gridx = 2;
 			c1.gridy = i + 1;
-			JButton button = new JButton("Buy x1 for " + convertToNamed(game.getBusinesses().get((Integer)i).getDisplayPrice()));
+			JButton button = new JButton(
+					"Buy x1 for " + convertToNamed(game.getBusinesses().get((Integer) i).getDisplayPrice()));
 			button.addMouseListener(new ButtonMouseListener(i, game, true));
 			buttons1.add(button);
 			panel1.add(button, c1);
 		}
 		normalPanel.add(panel1);
-		
+
 		upgradesButton = new JButton("Upgrades");
 		upgradesButton.addMouseListener(new UpgradesButtonMouseListener(this));
 		normalPanel.add(upgradesButton);
-		
-		//UPGRADES PANEL
+
+		// UPGRADES PANEL
 		upgradesPanel = new JPanel();
 		upgradesPanel.setLayout(new GridLayout(0, 1));
 		label2 = new JLabel(player.getName() + " has £" + convertToNamed(player.getMoney()));
 		upgradesPanel.add(new JLabel("UPGRADES"));
 		upgradesPanel.add(label2);
-		
+
+		noLabel2 = new JLabel("You cannot buy that");
+		noLabel2.setVisible(false);
+		upgradesPanel.add(noLabel2);
+
 		panel2 = new JPanel();
 		panel2.setLayout(new GridBagLayout());
 		GridBagConstraints c2 = new GridBagConstraints();
@@ -107,7 +110,7 @@ public class Display extends JFrame {
 			panel2.add(button, c2);
 		}
 		upgradesPanel.add(panel2);
-		
+
 		exitUpgradesButton = new JButton("Back");
 		exitUpgradesButton.addMouseListener(new ExitUpgradesButtonMouseListener(this));
 		upgradesPanel.add(exitUpgradesButton);
@@ -117,18 +120,20 @@ public class Display extends JFrame {
 		label1.setText(player.getName() + " has £" + player.getMoney());
 		label2.setText(player.getName() + " has £" + player.getMoney());
 	}
-	
+
 	public void updateTimes() {
 		for (int i = 0; i < labels1.size(); i++) {
-			labels1.get(i).setText(game.getBusinesses().get((Integer)i).getName() + ": Time:" + game.getBusinesses().get((Integer)i).getTime() + ", Num:"
-					+ game.getBusinesses().get((Integer)i).getNum());
+			labels1.get(i)
+					.setText(game.getBusinesses().get((Integer) i).getName() + ": Time:"
+							+ game.getBusinesses().get((Integer) i).getTime() + ", Num:"
+							+ game.getBusinesses().get((Integer) i).getNum());
 		}
 	}
-	
+
 	public void updatePrices(int i) {
-		buttons1.get(i).setText("Buy x1 for " + game.getBusinesses().get((Integer)i).getDisplayPrice());
+		buttons1.get(i).setText("Buy x1 for " + game.getBusinesses().get((Integer) i).getDisplayPrice());
 	}
-	
+
 	public void updateUpgrades() {
 		for (int i = 0; i < 5; i++) {
 			if (i >= game.getUpgrades().size()) {
@@ -140,46 +145,55 @@ public class Display extends JFrame {
 			}
 		}
 	}
-	
-	public void noBuy() {
-		noLabel.setVisible(true);
-		int delay = 1000; //milliseconds
+
+	public void noBuyBusiness() {
+		noLabel1.setVisible(true);
+		int delay = 1000; // milliseconds
 		ActionListener taskPerformer = new ActionListener() {
-          public void actionPerformed(ActionEvent evt) {
-                noLabel.setVisible(false);
-            }
-        };
-        javax.swing.Timer tick=new javax.swing.Timer(delay,taskPerformer);
-        tick.setRepeats(false);
-        tick.start();
+			public void actionPerformed(ActionEvent evt) {
+				noLabel1.setVisible(false);
+			}
+		};
+		javax.swing.Timer tick = new javax.swing.Timer(delay, taskPerformer);
+		tick.setRepeats(false);
+		tick.start();
 	}
-	
+
+	public void noBuyUpgrade() {
+		noLabel2.setVisible(true);
+		int delay = 1000; // milliseconds
+		ActionListener taskPerformer = new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				noLabel2.setVisible(false);
+			}
+		};
+		javax.swing.Timer tick = new javax.swing.Timer(delay, taskPerformer);
+		tick.setRepeats(false);
+		tick.start();
+	}
+
 	public void showUpgrades() {
 		remove(normalPanel);
 		setContentPane(upgradesPanel);
 		validate();
 		repaint();
 	}
-	
+
 	public void showNormal() {
 		remove(upgradesPanel);
 		setContentPane(normalPanel);
 		validate();
 		repaint();
 	}
-	
+
 	private int convertToNamed(int num) {
-		/* String newNum = "";
-		if (num / 1000000000 >= 1) {
-			newNum = (String) (num / 1000000000) + "Billion";
-		} else if (num / 1000000 >= 1){
-			newNum = (String) (num / 1000000) + "Million";
-		} else {
-			newNum = (String) num;
-		}
-		return newNum; */
+		/*
+		 * String newNum = ""; if (num / 1000000000 >= 1) { newNum = (String) (num /
+		 * 1000000000) + "Billion"; } else if (num / 1000000 >= 1){ newNum = (String)
+		 * (num / 1000000) + "Million"; } else { newNum = (String) num; } return newNum;
+		 */
 		return num;
-	} 
+	}
 
 	public class MyKeyListener implements KeyListener {
 
@@ -200,65 +214,61 @@ public class Display extends JFrame {
 		}
 
 	}
-	
+
 	public class ButtonMouseListener extends MouseAdapter {
-	
+
 		private int index;
 		private Game game;
 		private boolean business;
-		
+
 		public ButtonMouseListener(int index, Game game, boolean business) {
 			this.index = index;
 			this.game = game;
 			this.business = business;
 		}
-		
-		
+
 		public void mousePressed(MouseEvent e) {
 			if (e.getButton() == MouseEvent.BUTTON1) {
-				if(business) {
-					game.increaseNumOfBusiness((Integer)index, 1);
+				if (business) {
+					game.increaseNumOfBusiness((Integer) index, 1);
 				} else {
 					game.buyUpgrade(index);
 				}
 			}
 		}
-		
+
 	}
-	
+
 	public class UpgradesButtonMouseListener extends MouseAdapter {
-	
+
 		private Display display;
-		
+
 		public UpgradesButtonMouseListener(Display display) {
 			this.display = display;
 		}
-		
-		
+
 		public void mousePressed(MouseEvent e) {
 			if (e.getButton() == MouseEvent.BUTTON1) {
 				display.showUpgrades();
 			}
 		}
-		
+
 	}
-	
+
 	public class ExitUpgradesButtonMouseListener extends MouseAdapter {
-	
+
 		private Display display;
-		
+
 		public ExitUpgradesButtonMouseListener(Display display) {
 			this.display = display;
 		}
-		
-		
+
 		public void mousePressed(MouseEvent e) {
 			if (e.getButton() == MouseEvent.BUTTON1) {
 				display.showNormal();
 			}
 		}
-		
+
 	}
 
 }
-
