@@ -3,15 +3,16 @@ package com.liedssna.org.java.main.game;
 public class Business {
 	
 	private String name;
-	private int num, starterMoney, secs, time;
+	private int num, starterMoney, secs, time, starterPrice;
 	private long lasttime = System.currentTimeMillis();
 	
-	public Business(String name, int num, int starterMoney, int secs) {
+	public Business(String name, int num, int starterMoney, int secs, int starterPrice) {
 		this.name = name;
 		this.num = num;
 		this.starterMoney = starterMoney;
 		this.secs = secs;
 		this.time = secs;
+		this.starterPrice = starterPrice;
 	}
 	
 	public void addToNum(int amount) {
@@ -28,6 +29,14 @@ public class Business {
 	
 	public int getMoney() {
 		return num * starterMoney;
+	}
+	
+	public int getDisplayPrice() {
+		return (num + 1) * starterPrice;
+	}
+	
+	public int getBuyPrice() {
+		return num * starterPrice;
 	}
 	
 	private void reset() {
